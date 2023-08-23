@@ -1,0 +1,314 @@
+@import url("https://use.typekit.net/gfo2pvr.css");
+
+* {
+  --primary: rgb(20, 45, 70);
+  --secondary: rgb(30, 150, 135);
+  --complementary: rgb(230, 180, 60);
+  --offwhite: rgb(235, 240, 245);
+  --offblack: rgb(51, 51,51);;
+  color: var(--offblack);
+  font-family: 'futura-pt', sans-serif;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: var(--offblack);
+}
+
+body {
+ background-color: var(--offwhite);
+ margin: 0;
+}
+
+.button-pill {
+  background-color: var(--secondary);
+  color: var(--offwhite);
+  height: 40px;
+  margin: 10px 5px;
+  min-width: 100px;
+  font-size: 12pt;
+  padding: 5px 5px;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: var(--secondary) 0 10px 20px -10px;
+  transition: transform 0.3s;
+  font-family: Arial, sans-serif;
+}
+
+.button-pill:hover {
+    transform: translateY(-2px);
+}
+
+.button-pill:active {
+    transform: translateY(1px);
+}
+
+.header-container {
+  background-color: var(--primary);
+  color: var(--offwhite);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5% 2%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+  width: 200px;
+  height: 50px;
+  margin: 5px 20px;
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.05); 
+  cursor: pointer;
+}
+
+.header-menu {
+  color: var(--offwhite);
+  font-size: large;
+  display: flex;
+  justify-content: space-evenly;
+  align-content: flex-end;
+}
+
+.header-menu a {
+  margin-left: 10px;
+  margin-right: 10px;
+  color:var(--offwhite);
+  font-size: 14pt;
+}
+
+.header-menu a:hover {
+  transform: translateY(-2px);
+}
+
+.header-menu a:active {
+  transform: translateY(1px);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left a {
+  margin-right: 10px;
+  color: var(--offwhite);
+}
+
+.header-left .button-pill {
+  padding: 7px 10px;
+  background-color: var(--offwhite);
+  color: var(--offblack);
+}
+
+.ReactModal__Overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ReactModal__Content {
+  width: 40%;
+  height: 50%;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+.staff-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: auto; 
+  height: 150px; 
+  padding: 10px 0;
+  margin: 5%;
+}
+
+.staff-card {
+  display: inline-block;  
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 8px;
+  margin-right: 10px;
+  width: 80px;
+  height: 70px;
+  display: flex;
+  color: var(--offblack);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.schedule-title-container {
+  display: flex;
+  margin: 0px 5px;
+
+}
+
+.schedule-container {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* This vertically centers the children */
+  margin: 0% 5%;
+  background-color: white;
+}
+
+.day-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 100%;
+  gap: 10px;
+}
+
+.day-container-daily {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 100%;
+  margin: 0% 0%;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+}
+
+.schedule-shifts { 
+  font-weight: 200;
+  font-size: 9pt;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  border-radius: 15px;
+  margin: 0px 5px;
+  width: 100%;
+}
+
+.schedule-shifts-daily { 
+  font-weight: 200;
+  font-size: 12pt;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  border-radius: 15px;
+  margin: 0px 5px;
+  width: 100%;
+}
+
+.schedule-shifts strong {
+  text-align: left;
+  font-size: 12pt;
+}
+
+.schedule-shifts-daily strong {
+  text-align: left;
+  font-size: 12pt;
+}
+
+.schedule-shifts:hover {
+  cursor: pointer;
+}
+
+.schedule-date-picker {
+  min-width: 140px;
+} 
+
+.schedule-modal {
+  min-height: 300px;
+  min-width: 500px;
+}
+
+.schedule-modal strong{
+  display: flex;
+}
+
+.arrow-icon {
+  margin: 1.5% 0%;
+  height: 20px;
+  width: 100%;
+}
+
+.schedule-modal-buttons {
+  display: inline-flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.schedule-modal-buttons button {
+  border-radius: 999px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+}
+
+.schedule-modal-button-confirm{
+  background: green;
+  box-shadow: #green 0 10px 20px -10px;
+}
+
+.schedule-modal-button-cancel{
+  background: grey;
+  box-shadow: gray 0 10px 20px -10px;
+}
+
+.schedule-modal-button-delete{
+  background: red;
+  box-shadow: red 0 10px 20px -10px;
+}
+
+.daily-schedule-container {
+  width: 100%; /* Take up all available space between the SVGs */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers children horizontally */
+}
+
+.daily-schedule-container strong {
+  font-size: 14pt;
+  margin: 0px 0px 15px 0px;
+}
+
+.arrow-icon-daily {
+  margin: 1.5% 2%;
+  height: 20px;
+  width: 20px;
+}
+
+strong {
+  text-align: center;
+  display: block; /* Makes sure the text-align takes effect */
+}
