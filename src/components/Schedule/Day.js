@@ -92,7 +92,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
       
         // Now, return the shift for the new date
         return {
-          UserName: selectedUser.Name,
+          UserName: selectedUser.FirstName + ' ' + selectedUser.LastName,
           id: selectedUser.id,
           Start: { 
             seconds: Math.floor(convertLocalDateToUTC(newStartDate).getTime() / 1000), 
@@ -120,7 +120,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
             while (baseDate.getDay() !== 1) {
                 baseDate.setDate(baseDate.getDate() - 1);
             }
-            
+
             if (repeatOnMon || repeatOnWek) {
                 const shiftForMon = generateShift(baseDate);
                 dayShiftsToAdd.push(shiftForMon);
@@ -181,7 +181,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
                 // First shift: from start to local midnight
                 const shift1End = localMidnightAfterStartDate;
                 shiftsToAdd.push({
-                    UserName: selectedUser.Name,
+                    UserName: selectedUser.FirstName + " " + selectedUser.LastName,
                     id: selectedUser.id,
                     Start: { seconds: Math.floor(convertLocalDateToUTC(startDate).getTime() / 1000), nanoseconds: 0 },
                     End: { seconds: Math.floor(convertLocalDateToUTC(shift1End).getTime() / 1000), nanoseconds: 0 },
@@ -191,7 +191,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
                 // Second shift: from local midnight to end
                 const shift2Start = new Date(localMidnightAfterStartDate.getTime() + localMidnightAfterStartDate.getTimezoneOffset() * 60000);
                 shiftsToAdd.push({
-                    UserName: selectedUser.Name,
+                    UserName: selectedUser.FirstName + " " + selectedUser.LastName,
                     id: selectedUser.id,
                     Start: { seconds: Math.floor(convertLocalDateToUTC(shift2Start).getTime() / 1000), nanoseconds: 0 },
                     End: { seconds: Math.floor(convertLocalDateToUTC(endDate).getTime() / 1000), nanoseconds: 0 },
@@ -199,7 +199,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
                 });
             } else {
                 shiftsToAdd.push({
-                    UserName: selectedUser.Name,
+                    UserName: selectedUser.FirstName + " " + selectedUser.LastName,
                     id: selectedUser.id,
                     Start: { seconds: Math.floor(convertLocalDateToUTC(startDate).getTime() / 1000), nanoseconds: 0 },
                     End: { seconds: Math.floor(convertLocalDateToUTC(endDate).getTime() / 1000), nanoseconds: 0 },
@@ -254,6 +254,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
         setSelectedUser(null);
         setEditingShiftIndex(null);
         setEditingShift(null);
+        setIsChecked(false);
     };
            
 
@@ -291,7 +292,7 @@ const Day = ({ clickableUser, setModal, period, day, shifts, notFormattedDate, t
                 </div>
             ))}
             <Modal className='schedule-modal' isOpen={isModalOpen} onRequestClose={() => setModalOpen(false)}>
-                <h2>Schedule for {selectedUser?.Name}</h2>
+                <h2>Schedule for {selectedUser?.FirstName}</h2>
                 <div>
                     <strong>Start Time:</strong>
                     <DatePicker className='schedule-date-picker' selected={startDate} onChange={date => setStartDate(date)} showTimeSelect dateFormat="Pp" />

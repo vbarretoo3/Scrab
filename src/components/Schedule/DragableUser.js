@@ -21,7 +21,7 @@ function DraggableUser({ setClickableUser, setModal, user }) {
             className="staff-card"
             style={{ opacity: isDragging ? 0.5 : 1 }}
         >
-            <strong style={{ fontSize: '14pt'}}>{user.Name}</strong>
+            <strong style={{ fontSize: '14pt'}}>{user.FirstName} {user.LastName}</strong>
             <br/>
             {user.Role}
             <br/>

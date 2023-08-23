@@ -318,3 +318,21 @@ strong {
   text-align: center;
   display: block; /* Makes sure the text-align takes effect */
 }
+
+.signup-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 15px 15px;
+  margin: 15px 25px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  gap: 15px;
+}
+
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+}

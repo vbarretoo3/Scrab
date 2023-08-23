@@ -10,7 +10,7 @@ function Homepage() {
   return (
     <>
         <Header/>
-        <h1>Hello {user ? user.Name : "Guest"}!</h1>
+        <h1>Hello {user ? user.FirstName : "Guest"}!</h1>
         <button onClick={() => navigate('/signup')} className='button-pill'>Start free Trial</button>
     </>
   )

@@ -1,41 +1,41 @@
+import './style/App.css';
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useAuth } from './context/auth';
 import Homepage from './pages/Homepage';
-import './style/App.css';
 import Timesheet from './pages/Timesheet';
 import DataFetcher from './components/DataFetcher';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 function App() {
-    const [user, setUser] = useState('HlHfbVnLx3nEJA7snL2L');
+    const { currentUser } = useAuth();
+    const [user, setUser] = useState();
     const [isDataLoaded, setDataLoaded] = useState(false);
-
-    /* 
-    const unsubscribe = auth.onAuthStateChanged(currentUser => {
-        setUser(currentUser);
-    });
-
-    // Cleanup the observer on unmount
     useEffect(() => {
-        return () => unsubscribe();
-    }, []);
-    */
+        if (currentUser) {
+          setUser(currentUser.uid);
+        } else {
+          setUser(null);
+        }
+      }, [currentUser]);
 
     return (
         <>
             <div>
                 {user && <DataFetcher userId={user} onDataLoaded={setDataLoaded} />}
             </div>
-            {isDataLoaded && (
                 <Routes>
                     <Route path="/" element={<Homepage />} />
                     <Route path="/solutions" element={<Homepage />} />
                     <Route path="/pricing" element={<Homepage />} />
                     <Route path="/resources" element={<Homepage />} />
-                    <Route path="/schedule" element={<Timesheet />} />
-                    <Route path="/login" element={<Homepage />} />
-                    <Route path="/signup" element={<Homepage />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    {isDataLoaded && (
+                        <Route path="/schedule" element={<Timesheet />} />
+                     )}
                 </Routes>
-            )}
         </>
     );
 }
