@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 
-function DraggableUser({ user }) {
+function DraggableUser({ setClickableUser, setModal, user }) {
     const [{ isDragging }, drag] = useDrag({
         type: 'USER',
         item: { user },
@@ -10,13 +10,23 @@ function DraggableUser({ user }) {
         }),
     });
 
+    const handleModal = () => {
+        setClickableUser(user)
+        setModal(true)
+    }
+
     return (
-        <div
+        <div onClick={handleModal}
             ref={drag}
             className="staff-card"
             style={{ opacity: isDragging ? 0.5 : 1 }}
         >
-            {user.Name}
+            <strong style={{ fontSize: '14pt'}}>{user.Name}</strong>
+            <br/>
+            {user.Role}
+            <br/>
+            <br/>
+            {user.Notes}
         </div>
     );
 }

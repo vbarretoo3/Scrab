@@ -8,7 +8,7 @@ import { db } from '../../context/firebase';
 import { setDoc, doc, query, collection, getDocs } from 'firebase/firestore';
 
 
-const Schedule = ({ timesheet, updateTimesheet }) => {
+const Schedule = ({ clickableUser, setModal, timesheet, updateTimesheet }) => {
     const [period, setPeriod] = useState('Weekly');
     const [startDate, setStartDate] = useState(new Date());
 
@@ -135,10 +135,10 @@ const Schedule = ({ timesheet, updateTimesheet }) => {
                         <Day 
                             period={period}
                             key={index} 
-                            day={`${date.toDateString().split(' ').slice(0, 3).join(' ')}`} notFormattedDate={date} shifts={timesheet[date.toDateString()] || []} updateTimesheet={updateTimesheet} timesheet={timesheet}
+                            day={`${date.toDateString().split(' ').slice(0, 3).join(' ')}`} notFormattedDate={date} shifts={timesheet[date.toDateString()] || []} updateTimesheet={updateTimesheet} timesheet={timesheet} clickableUser={clickableUser} setModal={setModal}
                         />
                     )) : 
-                    <DayView key={startDate.toString()} updateTimesheet={updateTimesheet} day={startDate} timesheet={timesheet} />
+                    <DayView setModal={setModal} key={startDate.toString()} updateTimesheet={updateTimesheet} day={startDate} timesheet={timesheet} />
                 }
             <AiOutlineCaretRight className={period ==='Weekly'? 'arrow-icon':'arrow-icon-daily'}  onClick={period === 'Weekly' ? handleNextWeek : handleNextDay}/>
             </div>

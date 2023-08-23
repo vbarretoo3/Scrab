@@ -9,7 +9,6 @@ function App() {
     const [user, setUser] = useState('HlHfbVnLx3nEJA7snL2L');
     const [isDataLoaded, setDataLoaded] = useState(false);
 
-    // If you ever decide to reintegrate your authentication
     /* 
     const unsubscribe = auth.onAuthStateChanged(currentUser => {
         setUser(currentUser);

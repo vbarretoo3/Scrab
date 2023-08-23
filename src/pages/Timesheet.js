@@ -8,6 +8,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 function Timesheet() {
     const [users, setUsers] = useState([]);
     const [timesheet, setTimesheet] = useState([]);
+    const [modal, setModal] = useState(false);
+    const [clickableUser, setClickableUser] = useState([])
 
     useEffect(() => {
         try {
@@ -42,11 +44,11 @@ function Timesheet() {
             <DndProvider backend={HTML5Backend}>
                 <Header />
                 <div className="App">
-                    <Schedule users={users} timesheet={timesheet} updateTimesheet={updateTimesheet} />
+                    <Schedule users={users} timesheet={timesheet} updateTimesheet={updateTimesheet} clickableUser={clickableUser} setModal={setModal}/>
 
                     <div className="staff-container">
                         {users.map(user => (
-                            <DraggableUser key={user.id} user={user} />
+                            <DraggableUser setModal={setModal} key={user.id} user={user} setClickableUser={setClickableUser}/>
                         ))}
                     </div>
                 </div>
