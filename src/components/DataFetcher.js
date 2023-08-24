@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { db } from '../context/firebase';
 import { getDoc, doc, query, where, getDocs, collection } from 'firebase/firestore';
 
@@ -53,12 +53,11 @@ const DataFetcher = ({ userId, onDataLoaded }) => {
                 sessionStorage.setItem('companyUsers', JSON.stringify(usersData));
 
                 // Inform parent that data loading is complete
-                onDataLoaded(true);
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
-                onDataLoaded(false); // Inform parent about the error
             }
+            onDataLoaded && onDataLoaded();
         };
 
         fetchUserData();

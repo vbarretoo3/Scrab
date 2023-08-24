@@ -4,6 +4,7 @@ import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Modal from 'react-modal';
 import { AuthProvider } from './context/auth';
+import './style/App.css'
 
 Modal.setAppElement('#root');
 
