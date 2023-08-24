@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/auth'; // Assuming AuthContext is in the same directory
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,7 +17,7 @@ function Login() {
       setError('');
       setLoading(true);
       await logIn(email, password);
-        navigate('/schedule');
+        navigate('/dashboard');
     } catch {
       setError('Failed to log in.');
     }
@@ -28,7 +27,6 @@ function Login() {
 
   return (
     <>
-        <Header/>
         <div>
         {error && <p>{error}</p>}
         <form onSubmit={handleSubmit}>

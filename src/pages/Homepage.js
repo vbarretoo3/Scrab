@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '../components/Header'
 import { useNavigate } from 'react-router-dom'
 
 function Homepage() {
@@ -9,7 +8,6 @@ function Homepage() {
 
   return (
     <>
-        <Header/>
         <h1>Hello {user ? user.FirstName : "Guest"}!</h1>
         <button onClick={() => navigate('/signup')} className='button-pill'>Start free Trial</button>
     </>

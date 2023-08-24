@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../imgs/Logomark(simple).svg';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function PublicHeader() {
   const navigate = useNavigate();
 
   return (
@@ -27,4 +27,4 @@ function Header() {
   )
 }
 
-export default Header
+export default PublicHeader;

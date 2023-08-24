@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import Schedule from '../components/Schedule/Schedule';
 import DraggableUser from '../components/Schedule/DragableUser';
 import { DndProvider } from 'react-dnd';
@@ -42,7 +41,6 @@ function Timesheet() {
     return (
         <>
             <DndProvider backend={HTML5Backend}>
-                <Header />
                 <div className="App">
                     <Schedule users={users} timesheet={timesheet} updateTimesheet={updateTimesheet} clickableUser={clickableUser} setModal={setModal}/>
 

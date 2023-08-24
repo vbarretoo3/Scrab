@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { auth, db } from '../context/firebase'; // Assuming you've set up Firebase in a 'firebaseConfig' file
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
@@ -71,7 +70,6 @@ function Signup() {
 
     return (
         <>
-            <Header />
             <form className='signup-form' onSubmit={handleSubmit}>
                 <div className='signup-fields'>
                     <label>First Name</label>
