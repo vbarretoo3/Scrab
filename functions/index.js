@@ -57,3 +57,32 @@ exports.updateUserName = functions.firestore
 
     return null;
   });
+
+exports.createUser = functions.https.onCall(async (data, context) => {
+  const { Email, FirstName, LastName, CompanyId } = data;
+
+  // Create user with Firebase Admin SDK
+  const userRecord = await admin.auth().createUser({
+    email: Email,
+  });
+
+  const companyRef = admin.firestore().doc(`Company/${CompanyId}`);
+
+  const uid = userRecord.uid;
+
+  // Trigger a password reset so that the new user can set their password
+
+  // Add user to Firestore with the same UID
+  const userRef = admin.firestore().collection("Users").doc(uid);
+  await userRef.set({
+    FirstName: FirstName,
+    LastName: LastName,
+    Email: Email,
+    Company: companyRef,
+    Permission: "Staff",
+    Role: "Staff",
+    Notes: "",
+  });
+
+  return { success: true, uid: uid };
+});

@@ -63,6 +63,12 @@ body {
   transition: transform 0.3s;
 }
 
+.loading-logo {
+  width: 150px;
+  height: 150px;
+  transition: transform 0.3s;
+}
+
 .logo:hover {
   transform: scale(1.05); 
   cursor: pointer;
