@@ -15,6 +15,7 @@ import Staff from "./pages/Staff";
 import Loading from "./components/Loading";
 import Settings from "./pages/Settings";
 import { useLocation } from "react-router-dom";
+import PickPlan from "./pages/PickPlan";
 
 function ProtectedRoute({ children }) {
   const { currentUser } = useAuth();
@@ -57,6 +58,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/plans" element={<PickPlan />} />
           <Route
             path="/schedule"
             element={

@@ -8,7 +8,7 @@ const Loading = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowTimeoutMessage(true);
-    }, 5000); // for example, after 5 seconds
+    }, 10000); // after 10 seconds
 
     return () => clearTimeout(timeoutId); // Clear the timeout if the component unmounts
   }, []);
@@ -44,9 +44,7 @@ const Loading = () => {
           }}
         ></div>
       </div>
-      {showTimeoutMessage && (
-        <p>Taking longer than expected? Try refreshing the page.</p>
-      )}
+      {showTimeoutMessage && <p>Just a couple more seconds</p>}
       <style>{`
         @keyframes loadingBar {
           0% { transform: scaleX(0); }

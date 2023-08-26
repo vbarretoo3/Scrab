@@ -1,8 +1,13 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+require("dotenv").config();
+
+const Stripe = require("stripe");
 
 admin.initializeApp();
 const db = admin.firestore();
+// eslint-disable-next-line new-cap
+const stripe = Stripe(functions.config().stripe.secret_key);
 
 exports.updateUserName = functions.firestore
   .document("Users/{userId}")
@@ -85,4 +90,50 @@ exports.createUser = functions.https.onCall(async (data, context) => {
   });
 
   return { success: true, uid: uid };
+});
+
+exports.createStripeUser = functions.firestore
+  .document("Company/{companyId}")
+  .onCreate(async (snap, context) => {
+    try {
+      const companyData = snap.data();
+
+      // Create a new customer in Stripe.
+      const customer = await stripe.customers.create({
+        name: companyData.companyName, // Assuming the company document has a 'name' field.
+      });
+
+      // Store the Stripe customer ID in Firestore.
+      return snap.ref.set({ stripeCustomerId: customer.id }, { merge: true });
+    } catch (error) {
+      console.error("Error creating Stripe customer:", error);
+      // Handle or rethrow the error as needed
+      throw new functions.https.HttpsError(
+        "internal",
+        // eslint-disable-next-line
+        "Failed to create Stripe customer."
+      );
+    }
+  });
+
+exports.createStripeCheckout = functions.https.onCall(async (data, context) => {
+  const items = [
+    {
+      price: data.planId,
+      quantity: 1,
+    },
+  ];
+
+  const session = await stripe.checkout.sessions.create({
+    customer: data.customerId,
+    payment_method_types: ["card"],
+    mode: "subscription",
+    success_url: "https://timesheetapp-ee2d2.web.app/dashboard",
+    cancel_url: "https://timesheetapp-ee2d2.web.app/pricing",
+    line_items: items,
+  });
+
+  return {
+    id: session.id,
+  };
 });

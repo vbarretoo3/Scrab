@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../context/firebase";
 import {
   getDoc,
@@ -8,8 +8,11 @@ import {
   getDocs,
   collection,
 } from "firebase/firestore";
+import Loading from "./Loading";
 
 const DataFetcher = ({ userId, onDataLoaded }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -18,6 +21,10 @@ const DataFetcher = ({ userId, onDataLoaded }) => {
         const userDocSnap = await getDoc(userDocRef);
 
         const userData = userDocSnap.data();
+        if (!userData) {
+          console.error("User data not found for ID:", userId);
+          return;
+        }
         userData.id = userDocSnap.id;
         sessionStorage.setItem("user", JSON.stringify(userData));
 
@@ -49,6 +56,7 @@ const DataFetcher = ({ userId, onDataLoaded }) => {
         );
         // Store timesheet data in session storage
         sessionStorage.setItem("timesheetData", JSON.stringify(timesheetData));
+
         const usersQuery = query(
           collection(db, "Users"),
           where("Company", "==", companyRef)
@@ -63,18 +71,21 @@ const DataFetcher = ({ userId, onDataLoaded }) => {
 
         // Store company users data in session storage
         sessionStorage.setItem("companyUsers", JSON.stringify(users));
-
-        // Inform parent that data loading is complete
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      setIsLoading(false); // Data fetching is complete
       onDataLoaded && onDataLoaded();
     };
 
     fetchUserData();
   }, [userId, onDataLoaded]);
 
-  return null; // This component doesn't render any UI
+  if (isLoading) {
+    return <Loading />; // Render the loading component if data is still being fetched
+  }
+
+  return null; // This component doesn't render any UI after data is fetched
 };
 
 export default DataFetcher;

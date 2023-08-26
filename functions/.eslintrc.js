@@ -6,7 +6,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  extends: ["eslint:recommended", "google", "plugin:prettier/recommended"],
+  extends: ["plugin:prettier/recommended"],
+  plugins: ["prettier"],
   rules: {
     "prettier/prettier": "error",
   },
