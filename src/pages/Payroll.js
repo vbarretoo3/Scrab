@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function Payroll() {
   return (
-    <div>Payroll</div>
-  )
+    <div className="protected-route-container">
+      <h3>Payroll</h3>
+    </div>
+  );
 }
 
-export default Payroll
+export default Payroll;

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import Day from "./Day";
 import DayView from "./DayView";
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from "react-icons/ai";
@@ -128,7 +126,7 @@ const Schedule = ({ clickableUser, setModal, timesheet, updateTimesheet }) => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <>
       <div className="schedule-title-container">
         {period === "Weekly" ? (
           <button className="button-pill" onClick={() => handleToggleView()}>
@@ -149,7 +147,13 @@ const Schedule = ({ clickableUser, setModal, timesheet, updateTimesheet }) => {
           Save
         </button>
       </div>
-      <div className="schedule-container">
+      <div
+        className={
+          period === "Weekly"
+            ? "schedule-container"
+            : "schedule-container-daily"
+        }
+      >
         <AiOutlineCaretLeft
           className={period === "Weekly" ? "arrow-icon" : "arrow-icon-daily"}
           onClick={period === "Weekly" ? handlePreviousWeek : handlePreviousDay}
@@ -182,7 +186,7 @@ const Schedule = ({ clickableUser, setModal, timesheet, updateTimesheet }) => {
           onClick={period === "Weekly" ? handleNextWeek : handleNextDay}
         />
       </div>
-    </DndProvider>
+    </>
   );
 };
 

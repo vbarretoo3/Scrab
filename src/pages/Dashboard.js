@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+    <div className="protected-route-container">
+      <h3>Dashboard</h3>
+    </div>
+  );
 }
 
-export default Dashboard
+export default Dashboard;

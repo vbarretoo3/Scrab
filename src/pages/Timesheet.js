@@ -42,9 +42,9 @@ function Timesheet() {
   };
 
   return (
-    <>
+    <div className="protected-route-container">
       <DndProvider backend={HTML5Backend}>
-        <div className="App">
+        <div>
           <Schedule
             users={users}
             timesheet={timesheet}
@@ -65,7 +65,7 @@ function Timesheet() {
           </div>
         </div>
       </DndProvider>
-    </>
+    </div>
   );
 }
 

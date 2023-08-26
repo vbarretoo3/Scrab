@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Payroll from "./pages/Payroll";
 import Staff from "./pages/Staff";
 import Loading from "./components/Loading";
+import Settings from "./pages/Settings";
 import { useLocation } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
@@ -32,7 +33,7 @@ function App() {
     "/schedule",
     "/dashboard",
     "/payroll",
-    "/options",
+    "/settings",
   ].includes(location.pathname);
 
   // If it's still authenticating the user
@@ -56,7 +57,6 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/loading" element={<Loading />} />
           <Route
             path="/schedule"
             element={
@@ -86,6 +86,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Staff />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/*"
+            element={
+              <ProtectedRoute>
+                <Settings />
               </ProtectedRoute>
             }
           />

@@ -357,6 +357,23 @@ const Day = ({
     setEditingShift(null);
   };
 
+  function getFontSize(userName) {
+    const defaultSize = 14; // default font size
+    const maxLength = 20; // adjust this based on the maximum expected length for the username
+
+    if (userName.length > maxLength) {
+      return `${defaultSize - 4}pt`; // reduce font size by 4 points if it exceeds maxLength
+    } else if (userName.length > maxLength * 0.75) {
+      return `${defaultSize - 3}pt`; // reduce by 3 points if it exceeds 75% of maxLength
+    } else if (userName.length > maxLength * 0.5) {
+      return `${defaultSize - 2}pt`; // reduce by 2 points if it exceeds 50% of maxLength
+    } else if (userName.length > maxLength * 0.25) {
+      return `${defaultSize - 1}pt`; // reduce by 1 point if it exceeds 25% of maxLength
+    }
+
+    return `${defaultSize}pt`;
+  }
+
   return (
     <div
       ref={ref}
@@ -371,7 +388,13 @@ const Day = ({
           key={i}
           onClick={() => handleEditShift(i)}
         >
-          <strong>{shift.UserName}</strong>
+          {period === "Weekly" ? (
+            <strong style={{ fontSize: getFontSize(shift.UserName) }}>
+              {shift.UserName}
+            </strong>
+          ) : (
+            <strong>{shift.UserName}</strong>
+          )}
           Start:{" "}
           {convertFirestoreTimestampToDate(shift.Start).toLocaleTimeString(
             undefined,

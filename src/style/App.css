@@ -8,7 +8,7 @@
   --offblack: rgb(51, 51,51);;
   color: var(--offblack);
   font-family: 'futura-pt', sans-serif;
-  box-sizing: border-box;
+  box-sizing: border-box;;
 }
 
 a {
@@ -147,17 +147,18 @@ body {
   white-space: nowrap;
   width: auto; 
   padding: 10px 0;
-  margin: 5%;
+  margin: 10px;
 }
 
 .staff-card {
   padding: 15px 0px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   background-color: white;
   border-radius: 8px;
-  margin-right: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
   width: 180px;
   height: 200px;
   display: flex;
@@ -173,10 +174,21 @@ body {
 }
 
 .schedule-container {
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   display: grid;
   grid-template-columns: .2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr .2fr;
+  align-items: stretch; /* This vertically centers the children */
+  margin: 0px 15px;
+  padding: 10px 0px;
+  background-color: white;
+}
+
+.schedule-container-daily {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: .2fr 7fr .2fr;
   align-items: stretch; /* This vertically centers the children */
   margin: 0% 5%;
   background-color: white;
@@ -186,7 +198,7 @@ body {
   display: flex;
   align-items: stretch;
   flex-direction: column;
-  padding: 16px;
+  padding: 5%;
   width: 100%;
   gap: 10px;
 }
@@ -205,8 +217,8 @@ body {
 
 .schedule-shifts { 
   font-weight: 200;
-  font-size: 9pt;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  font-size: 10pt;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   padding: 10px 20px;
   border-radius: 15px;
   margin: 0px 5px;
@@ -216,7 +228,7 @@ body {
 .schedule-shifts-daily { 
   font-weight: 200;
   font-size: 12pt;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
   padding: 10px 20px;
   border-radius: 15px;
   margin: 0px 5px;
@@ -312,9 +324,9 @@ body {
 }
 
 .arrow-icon-daily {
-  margin: 1.5% 2%;
-  height: 20px;
-  width: 20px;
+  margin: 10px 10px;
+  height: 30px;
+  width: 30px;
 }
 
 .week-repeat {
@@ -347,7 +359,8 @@ strong {
 
 .protected-container {
   display: grid;
-  grid-template-columns: 1fr 10fr;
+  grid-template-columns: 1.5fr 10fr;
+  height: 100%;
 }
 
 .nav-bar-container {
@@ -413,4 +426,46 @@ justify-content: space-between;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.protected-route-container {
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-right: 20px;
+  margin-left: 10px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  height: 100%;
+}
+
+.divider {
+  width: 1px;  /* width of the vertical line */
+  background-color: #444;
+  height: 80%;
+}
+
+.settings-container {
+  display: grid;
+  grid-template-columns: 1.5fr .2fr 8fr;
+  height: 100%;
+}
+
+.settings-navbar {
+  background: #FFFFFF;
+  border: none; 
+  border-radius: 15px;
+  padding: 5px 10px;
+  text-align: left;
+  font-size: 12pt;
+}
+
+.settings-navbar:hover {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+h3 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 15px;
 }
