@@ -256,6 +256,7 @@ body {
 .schedule-modal {
   min-height: 300px;
   min-width: 500px;
+  z-index: 3;
 }
 
 .schedule-modal strong{
@@ -468,4 +469,112 @@ h3 {
   margin-top: 0px;
   margin-bottom: 0px;
   padding-left: 15px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 50px; 
+  width: 100%;
+}
+
+.card {
+  width: 28%; 
+  height: 500px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
+  background-color: #fff;
+  border-radius: 10px; 
+  padding: 20px 40px; 
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.card.advanced {
+  z-index: 0;
+  transform: scale(1.1);
+}
+
+.card-button {
+  width: 10%;
+  min-width: 150px;
+  align-self: center;
+  justify-self: end;
+}
+
+.card-text {
+  text-align: left;
+}
+
+.staff-settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px 25px;
+}
+
+.staff-settings-card {
+  display: flex;
+  padding: 5px;
+  border-radius: 8px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+}
+
+.staff-settings-card:hover {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.staff-settings-create-date {
+  color: rgba(0, 0, 0, 0.5);
+  font-style: italic;
+}
+
+.staff-modal {
+  min-height: 400px;
+  min-width: 600px;
+  z-index: 3;
+}
+
+.staff-modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.icon-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-icon {
+  display: flex;
+  height: 20px;
+  width: 20px;
+}
+
+.staff-name-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 30%;
+}
+
+.staff-name-wrap-editable {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20%;
+}
+
+.button-pill:disabled {
+  background-color: grey;
+  box-shadow: grey 0 10px 20px -10px;
 }

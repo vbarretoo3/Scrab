@@ -9,6 +9,8 @@ const CreateUser = () => {
     FirstName: "",
     LastName: "",
     Email: "",
+    Notes: "",
+    Permission: "",
     CompanyId: companyRefId,
   });
 
@@ -39,25 +41,35 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="protected-route-container">
-      <form onSubmit={handleSubmit}>
+    <div className="staff-modal-container">
+      <div className="staff-name-wrap-editable">
+        <div style={{ display: "flex" }}>
+          <label for="FirstName">First Name:</label>
+          <input
+            type="text"
+            name="FirstName" // <-- Fixed here
+            value={formData.FirstName}
+            onChange={handleChange}
+            placeholder="First Name"
+            required
+          />
+        </div>
+        <div style={{ display: "flex" }}>
+          <label for="LastName">Last Name:</label>
+          <input
+            type="text"
+            name="LastName" // <-- Fixed here
+            value={formData.LastName}
+            onChange={handleChange}
+            placeholder="Last Name"
+            required
+          />
+        </div>
+      </div>
+      <div>
+        <label for="Email">Email:</label>
         <input
-          type="text"
-          name="FirstName" // <-- Fixed here
-          value={formData.FirstName}
-          onChange={handleChange}
-          placeholder="First Name"
-          required
-        />
-        <input
-          type="text"
-          name="LastName" // <-- Fixed here
-          value={formData.LastName}
-          onChange={handleChange}
-          placeholder="Last Name"
-          required
-        />
-        <input
+          style={{ width: "100%" }}
           type="email"
           name="Email" // <-- Fixed here
           value={formData.Email}
@@ -65,11 +77,34 @@ const CreateUser = () => {
           placeholder="Email Address"
           required
         />
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Create User"}
-        </button>
-        <p>{message}</p>
-      </form>
+      </div>
+      <div>
+        <label for="Permission">Permission:</label>
+        <input
+          style={{ width: "100%" }}
+          type="text"
+          name="Permission" // <-- Fixed here
+          value={formData.Permission}
+          onChange={handleChange}
+          placeholder="Permission"
+          required
+        />
+      </div>
+      <div>
+        <label for="Notes">Notes:</label>
+        <textarea
+          style={{ width: "100%", height: "50px" }}
+          type="text"
+          name="Notes" // <-- Fixed here
+          value={formData.Notes}
+          onChange={handleChange}
+          placeholder="Notes"
+        />
+      </div>
+      <button className="button-pill" onClick={handleSubmit} disabled={loading}>
+        {loading ? "Creating..." : "Create User"}
+      </button>
+      {message}
     </div>
   );
 };

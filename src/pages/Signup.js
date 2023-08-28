@@ -45,6 +45,7 @@ function Signup() {
         companyName: formData.companyName,
         SubscriptionStatus: "Trial",
         CustomerSince: currentDateStr,
+        Trial: true,
       });
 
       // Use user UID as document ID for Firestore user document
@@ -54,8 +55,9 @@ function Signup() {
         email: formData.email,
         Notes: "",
         Permission: "Admin",
-        Role: "Manager",
+        Role: "Owner",
         Company: companyRef,
+        CreatedAt: currentDateStr,
       });
 
       // Create and delete placeholder in Timesheet subcollection

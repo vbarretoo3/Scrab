@@ -64,7 +64,7 @@ exports.updateUserName = functions.firestore
   });
 
 exports.createUser = functions.https.onCall(async (data, context) => {
-  const { Email, FirstName, LastName, CompanyId } = data;
+  const { Email, FirstName, LastName, CompanyId, Notes, Permission } = data;
 
   // Create user with Firebase Admin SDK
   const userRecord = await admin.auth().createUser({
@@ -75,8 +75,13 @@ exports.createUser = functions.https.onCall(async (data, context) => {
 
   const uid = userRecord.uid;
 
-  // Trigger a password reset so that the new user can set their password
+  function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so +1 is added.
+    const year = date.getFullYear();
 
+    return `${day}-${month}-${year}`;
+  }
   // Add user to Firestore with the same UID
   const userRef = admin.firestore().collection("Users").doc(uid);
   await userRef.set({
@@ -84,9 +89,10 @@ exports.createUser = functions.https.onCall(async (data, context) => {
     LastName: LastName,
     Email: Email,
     Company: companyRef,
-    Permission: "Staff",
+    Permission: Permission,
     Role: "Staff",
-    Notes: "",
+    Notes: Notes,
+    CreatedAt: formatDate(new Date()),
   });
 
   return { success: true, uid: uid };
@@ -117,23 +123,130 @@ exports.createStripeUser = functions.firestore
   });
 
 exports.createStripeCheckout = functions.https.onCall(async (data, context) => {
-  const items = [
-    {
-      price: data.planId,
-      quantity: 1,
-    },
-  ];
+  try {
+    // Attach the payment method to the customer
+    await stripe.paymentMethods.attach(data.cardToken, {
+      customer: data.customerId,
+    });
 
-  const session = await stripe.checkout.sessions.create({
-    customer: data.customerId,
-    payment_method_types: ["card"],
-    mode: "subscription",
-    success_url: "https://timesheetapp-ee2d2.web.app/dashboard",
-    cancel_url: "https://timesheetapp-ee2d2.web.app/pricing",
-    line_items: items,
-  });
+    // Retrieve the company document
+    const companyRef = db.collection("Company").doc(data.companyId);
+    const companyDoc = await companyRef.get();
 
-  return {
-    id: session.id,
-  };
+    if (!companyDoc.exists) {
+      throw new Error("Company does not exist.");
+    }
+
+    const companyData = companyDoc.data();
+
+    // Define the subscription object
+    const subscriptionObj = {
+      customer: data.customerId,
+      items: [{ price: data.planId }],
+      default_payment_method: data.cardToken,
+    };
+
+    // Check if the company is eligible for a trial
+    if (companyData.Trial) {
+      const trialEnd = Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60; // 14 days from now
+      subscriptionObj.trial_end = trialEnd;
+    }
+
+    // Create the subscription
+    const subscription = await stripe.subscriptions.create(subscriptionObj);
+
+    // If the company had a trial, set the Trial field to false
+    if (companyData.Trial) {
+      await companyRef.update({
+        Trial: false,
+        Plan: data.planName,
+      });
+    }
+
+    return { id: subscription.id };
+  } catch (error) {
+    console.error(error);
+    throw new functions.https.HttpsError(
+      "unknown",
+      "Stripe checkout failed",
+      // eslint-disable-next-line
+      error.message
+    );
+  }
 });
+
+exports.subscriptionUpdate = functions.https.onRequest(async (req, res) => {
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.rawBody,
+      req.headers["stripe-signature"],
+      // eslint-disable-next-line
+      functions.config().stripe.subscription_update_webhook_secret
+    );
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  const handleInvoicePaymentStatus = async (status) => {
+    try {
+      const invoice = event.data.object;
+      const customerId = invoice.customer;
+
+      const companySnapshot = await admin
+        .firestore()
+        .collection("Company")
+        .where("stripeCustomerId", "==", customerId)
+        .get();
+
+      if (!companySnapshot.empty) {
+        const companyDoc = companySnapshot.docs[0];
+        await companyDoc.ref.update({
+          SubscriptionStatus: status,
+          lastInvoiceDate: admin.firestore.Timestamp.now(),
+        });
+      }
+    } catch (error) {
+      console.error("Error in handleInvoicePaymentStatus:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+  };
+
+  if (event.type === "invoice.payment_succeeded") {
+    await handleInvoicePaymentStatus("Active");
+  } else if (event.type === "invoice.payment_failed") {
+    await handleInvoicePaymentStatus("Delayed");
+  }
+
+  return res.sendStatus(200); // Responding to Stripe after processing
+});
+
+exports.checkDelayedSubscriptions = functions.pubsub
+  .schedule("0 0 * * *")
+  .timeZone("UTC")
+  .onRun(async (context) => {
+    const now = admin.firestore.Timestamp.now();
+    const fiveDaysAgo = admin.firestore.Timestamp.fromDate(
+      // eslint-disable-next-line
+      new Date(now.toDate() - 5 * 24 * 60 * 60 * 1000)
+    );
+
+    const companiesRef = admin.firestore().collection("Company");
+    const delayedCompanies = await companiesRef
+      .where("subscriptionStatus", "==", "Delayed")
+      .get();
+
+    delayedCompanies.forEach(async (doc) => {
+      const company = doc.data();
+      if (company.lastInvoiceDate && company.lastInvoiceDate < fiveDaysAgo) {
+        await companiesRef.doc(doc.id).update({
+          subscriptionStatus: "Inactive",
+        });
+      }
+    });
+
+    console.log("Subscription status check completed!");
+    return null;
+  });

@@ -14,6 +14,7 @@ import Payroll from "./pages/Payroll";
 import Staff from "./pages/Staff";
 import Loading from "./components/Loading";
 import Settings from "./pages/Settings";
+import Pricing from "./pages/Pricing";
 import { useLocation } from "react-router-dom";
 import PickPlan from "./pages/PickPlan";
 
@@ -59,6 +60,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/plans" element={<PickPlan />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route
             path="/schedule"
             element={
