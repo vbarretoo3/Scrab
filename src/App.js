@@ -52,7 +52,11 @@ function App() {
           onDataLoaded={() => setDataLoaded(true)}
         />
       )}
-      {isProtectedRoute ? <ProtectedHeader /> : <PublicHeader />}
+      {isProtectedRoute ? (
+        <>{dataLoaded && <ProtectedHeader />}</>
+      ) : (
+        <PublicHeader />
+      )}
       <div className={isProtectedRoute ? "protected-container" : "default"}>
         {isProtectedRoute && <NavBar />}
         <Routes>

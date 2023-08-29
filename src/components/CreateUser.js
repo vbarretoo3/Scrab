@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { httpsCallable } from "firebase/functions"; // make sure you import from 'firebase/functions', not 'firebase-admin/functions'
 import { db, functions } from "../context/firebase";
 import { doc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const CreateUser = () => {
   const companyRefId = JSON.parse(sessionStorage.getItem("company")).id;
@@ -16,6 +17,7 @@ const CreateUser = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,13 +28,11 @@ const CreateUser = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Here, 'createUser' is the name you've exported your cloud function as
     const createUserFunction = httpsCallable(functions, "createUser");
 
     try {
       const result = await createUserFunction(formData);
-      // Handle result (if needed)
-      setMessage("User created successfully! UID: " + result.data.uid);
+      window.location.reload();
     } catch (error) {
       setMessage("Error creating user: " + error.message);
     } finally {
@@ -44,7 +44,7 @@ const CreateUser = () => {
     <div className="staff-modal-container">
       <div className="staff-name-wrap-editable">
         <div style={{ display: "flex" }}>
-          <label for="FirstName">First Name:</label>
+          <label htmlFor="FirstName">First Name:</label>
           <input
             type="text"
             name="FirstName" // <-- Fixed here
@@ -55,7 +55,7 @@ const CreateUser = () => {
           />
         </div>
         <div style={{ display: "flex" }}>
-          <label for="LastName">Last Name:</label>
+          <label htmlFor="LastName">Last Name:</label>
           <input
             type="text"
             name="LastName" // <-- Fixed here
@@ -67,7 +67,7 @@ const CreateUser = () => {
         </div>
       </div>
       <div>
-        <label for="Email">Email:</label>
+        <label htmlFor="Email">Email:</label>
         <input
           style={{ width: "100%" }}
           type="email"
@@ -79,7 +79,7 @@ const CreateUser = () => {
         />
       </div>
       <div>
-        <label for="Permission">Permission:</label>
+        <label htmlFor="Permission">Permission:</label>
         <input
           style={{ width: "100%" }}
           type="text"
@@ -91,7 +91,7 @@ const CreateUser = () => {
         />
       </div>
       <div>
-        <label for="Notes">Notes:</label>
+        <label htmlFor="Notes">Notes:</label>
         <textarea
           style={{ width: "100%", height: "50px" }}
           type="text"

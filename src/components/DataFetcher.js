@@ -23,6 +23,7 @@ const DataFetcher = ({ userId, onDataLoaded }) => {
         const userData = userDocSnap.data();
         if (!userData) {
           console.error("User data not found for ID:", userId);
+          setIsLoading(false);
           return;
         }
         userData.id = userDocSnap.id;

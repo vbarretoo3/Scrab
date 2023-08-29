@@ -250,3 +250,53 @@ exports.checkDelayedSubscriptions = functions.pubsub
     console.log("Subscription status check completed!");
     return null;
   });
+
+exports.cancelSubscription = functions.https.onCall(async (data, context) => {
+  const userId = context.auth.uid;
+
+  // Fetch the user document first to get the company reference
+  const userDoc = await admin.firestore().collection("Users").doc(userId).get();
+  const userData = userDoc.data();
+
+  // Ensure that the user has a company reference
+  if (!userData.Company) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      // eslint-disable-next-line
+      "The user does not have an associated company."
+    );
+  }
+
+  // Fetch the company document using the reference and get the stripeCustomerId
+  const companyDoc = await userData.Company.get();
+  const companyData = companyDoc.data();
+
+  const stripeCustomerId = companyData.stripeCustomerId;
+
+  if (!stripeCustomerId) {
+    throw new functions.https.HttpsError(
+      "failed-precondition",
+      // eslint-disable-next-line
+      "The associated company does not have a Stripe customer ID."
+    );
+  }
+
+  // Fetch the subscription ID using the stripeCustomerId
+  const subscriptions = await stripe.subscriptions.list({
+    customer: stripeCustomerId,
+  });
+  if (subscriptions.data.length === 0) {
+    throw new functions.https.HttpsError(
+      "not-found",
+      // eslint-disable-next-line
+      "No active subscriptions found for this user."
+    );
+  }
+  const subscriptionId = subscriptions.data[0].id;
+
+  await stripe.subscriptions.update(subscriptionId, {
+    cancel_at_period_end: true,
+  });
+
+  return { success: true };
+});

@@ -10,6 +10,7 @@ function CompanyInfo() {
 
   return (
     <div>
+      Company Info
       <p>Company Name: {company.companyName}</p>
       <p>Member Since: {reformat(company.CustomerSince)}</p>
     </div>
